@@ -1,0 +1,16 @@
+name: csv_clean
+version: "pre"
+author: Mike Clarke <mike@lambdafunctions.com>
+about: Clean CSV files
+
+args:
+    - input:
+        help: Input file.  Omit or use '-' for STDIN
+        value_name: input
+        index: 1
+    - cascade:
+        help: Fill empty cells with values from row above
+        long: cascade
+    - datecol:
+        long: datecol
+        value_name: col
