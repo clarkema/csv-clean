@@ -56,8 +56,12 @@ fn main() {
     for result in rdr.records() {
         match result {
             Ok(record) => {
-                process_line(record, &mut last_line, cascade_p, &date_col, &date_options);
-                writeln!(writer, "{}", json!(last_line)).unwrap();
+                if let Some(pupil_num) = record.clone().get(9) {
+                    if ! pupil_num.is_empty() {
+                        process_line(record, &mut last_line, cascade_p, &date_col, &date_options);
+                        writeln!(writer, "{}", json!(last_line)).unwrap();
+                    }
+                }
             }
             Err(err) => {
                 eprintln!("error reading CSV from <stdin>: {}", err);
@@ -81,6 +85,10 @@ fn process_line(
 
                 if let Some(col) = date_col {
                     if col.contains(&i) {
+                        if field.is_empty() {
+                            last_line[i].push_str("");
+                            continue;
+                        }
                         let mut iso_date = None;
                         for format in date_options.iter() {
                             match NaiveDate::parse_from_str(field, format) {
@@ -99,9 +107,12 @@ fn process_line(
                                 continue;
                             }
                             None => {
+                                /*
                                 eprintln!("error converting date");
                                 process::exit(1);
-
+                                */
+                                last_line[i].push_str("");
+                                continue;
                             }
                         }
                     }
