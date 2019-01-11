@@ -23,6 +23,7 @@ fn main() {
     let cascade_p = matches.is_present("cascade");
 
     let date_options = [
+        "%d/%m/%y",
         "%d %B %Y",
         "%d-%B-%y"
     ];
