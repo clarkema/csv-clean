@@ -24,6 +24,7 @@ fn main() {
 
     let date_options = [
         "%d/%m/%y",
+        "%d/%m/%Y",
         "%d %B %Y",
         "%d-%B-%y"
     ];
